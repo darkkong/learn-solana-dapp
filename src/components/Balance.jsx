@@ -11,13 +11,16 @@ const Balance = () => {
   const [value, setValue] = useState("");
   const [balance, setBalance] = useState(null);
 
-  const getBalance = () => {
+  const getBalance = async () => {
     const url = getNodeRpcURL();
     const connection = new Connection(url);
     
     // Create a PublicKey from the input value
+    const publicKey = new PublicKey(value);
     // Call getBalance
+    const balance = await connection.getBalance(publicKey);
     // Set balance using setBalance and DECIMAL_OFFSET
+    setBalance(balance / DECIMAL_OFFSET);
   }
 
   const explorerUrl = getAccountExplorerURL(value);
