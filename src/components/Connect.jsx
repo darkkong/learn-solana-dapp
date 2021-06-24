@@ -12,12 +12,15 @@ const Connect = () => {
     getConnection();
   }, []);
 
-  const getConnection = () => {
+  const getConnection = async () => {
     const url = getNodeRpcURL();
     
     // Create a connection
+    const connection = new Connection(url);
     // Get the API version
+    const version = await connection.getVersion();
     // and save it to the component's state
+    setVersion(version);
   }
 
   return (
