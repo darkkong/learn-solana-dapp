@@ -27,7 +27,7 @@ const Transfer = ({ keypair }) => {
     setToAddress(address);
   }
 
-  const transfer = (values) => {
+  const transfer = async (values) => {
     const amountNumber = parseFloat(values.amount);
   
     if (isNaN(amountNumber)) {
@@ -58,8 +58,18 @@ const Transfer = ({ keypair }) => {
 
     // Create a transaction
     // Add instructions
-    // Call sendAndConfirmTransaction
-    // On success, call setTxSignature and setFetching
+    const transaction = new Transaction().add(instructions);
+
+    try {
+      // Call sendAndConfirmTransaction
+      const txSignature = await sendAndConfirmTransaction(connection, transaction, signers);
+      // On success, call setTxSignature and setFetching
+      setTxSignature(txSignature);
+      setFetching(false);
+    } catch (error) {
+      console.error(error);
+      setFetching(false);
+    }
   };
 
   const explorerUrl = getTxExplorerURL(txSignature);
