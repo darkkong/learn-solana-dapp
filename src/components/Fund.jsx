@@ -8,14 +8,16 @@ const Fund = () => {
   const [isFunded, setIsFunded] = useState(false);
   const [value, setValue] = useState("");
 
-  const fund = () => {
+  const fund = async () => {
     const url = process.env.REACT_APP_DEVNET_URL;
     const connection = new Connection(url);
     
     // Create a PublicKey address from the input value
+    const publicKey = new PublicKey(value);
     // Call requestAirdrop
+    await connection.requestAirdrop(publicKey, 1000000000);
     // On success, set isFunded to true
-
+    setIsFunded(true);
   }
   
   return (
